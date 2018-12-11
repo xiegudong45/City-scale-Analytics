@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import csv
 import pandas as pd
 import json
-from shapely.geometry.polygon import LinearRing, Polygon
+from shapely.geometry.polygon import LineString, Polygon
 from descartes.patch import PolygonPatch
 from shapely.geometry import mapping
 import os
@@ -11,7 +11,7 @@ import os
 
 #prepare: the following two variables need to change.
 default_dir = '/home/xiegudong45/Desktop/City-scale-Analytics/' # dis may alter with different local machine.
-buffer_ratio = 0.0003    # buffering ratio we'd like to alter. (0.0001 - 0.0005) 0.0003 is ok right now.
+buffer_ratio = 0.0005    # buffering ratio we'd like to alter. (0.0001 - 0.0005) 0.0003 is ok right now.
 
 upper = 47.6868735
 lower = 47.6649775
@@ -22,7 +22,7 @@ right = -122.317496
 
 sidewalk_dir = default_dir + 'data_table/sidewalks.csv'    # original sidewalks
 small_sidewalk_dir = default_dir + 'data_table/small_sidewalks.csv'
-
+sm_json_dir = default_dir + 'data_table/small_sidewalks.geojson'
 # park_boundary = '/home/xiegudong45/Desktop/City-scale-Analytics/Shenghao/data/park_only_boundary1.csv'
 
 origin_pb_dir = default_dir + 'Shenghao/data/park_only_boundary1.geojson'
@@ -35,36 +35,36 @@ def make_small_sw_csv():
     extract all the streets around green lake area, stores the information in a csv file.
     :return: a csv file contains the street name and its linestring.
     """
-    if not os.path.isfile(origin_pb_dir):
 
-        df = pd.DataFrame(columns=['id', 'forward', 'incline', 'layer', 'side', 'street_name',
+
+    df = pd.DataFrame(columns=['id', 'forward', 'incline', 'layer', 'side', 'street_name',
                                    'surface', 'width', 'length', 'v_coordinates', 'u_coordinates'])
 
-        file = open(sidewalk_dir)
-        for row in csv.DictReader(file):
-            v = row['v_coordinates']
-            u = row['u_coordinates']
-            v = v.replace('(', '').replace(')', '')
-            u = u.replace('(', '').replace(')', '')
-            vx = float(v.split(',')[0])
-            vy = float(v.split(',')[1])
-            ux = float(u.split(',')[0])
-            uy = float(u.split(',')[1])
-            ok = left <= vx <= right and left <= ux <= right and lower <= vy <= upper and lower <= uy <= upper
-            if ok:
-                df.loc[df.shape[0]] = [row['ID'],
-                                       row['forward'],
-                                       row['incline'],
-                                       row['layer'],
-                                       row['side'],
-                                       row['street_name'],
-                                       row['surface'],
-                                       row['width'],
-                                       row['length'],
-                                       v,
-                                       u]
-        df.to_csv(small_sidewalk_dir,  encoding='utf-8')
-        file.close()
+    file = open(sidewalk_dir)
+    for row in csv.DictReader(file):
+        v = row['v_coordinates']
+        u = row['u_coordinates']
+        v = v.replace('(', '').replace(')', '')
+        u = u.replace('(', '').replace(')', '')
+        vx = float(v.split(',')[0])
+        vy = float(v.split(',')[1])
+        ux = float(u.split(',')[0])
+        uy = float(u.split(',')[1])
+        ok = left <= vx <= right and left <= ux <= right and lower <= vy <= upper and lower <= uy <= upper
+        if ok:
+            df.loc[df.shape[0]] = [row['ID'],
+                                   row['forward'],
+                                   row['incline'],
+                                   row['layer'],
+                                   row['side'],
+                                   row['street_name'],
+                                   row['surface'],
+                                   row['width'],
+                                   row['length'],
+                                   v,
+                                   u]
+    df.to_csv(small_sidewalk_dir, encoding='utf-8', index=False)
+    file.close()
 
 
 def plot_map(geo_lst):
@@ -100,13 +100,31 @@ def plot_map(geo_lst):
             y_lst.append(point[1])
         plt.plot(x_lst, y_lst)
         polygon = Polygon(outside_poly)
-        patch = PolygonPatch(polygon, facecolor=[1, 1, 1], edgecolor=[0, 0.8, 0], alpha=0.5, zorder=2)
+        patch = PolygonPatch(polygon, facecolor=[1, 1, 1], edgecolor=[0.8, 0.8, 1], alpha=0.4, zorder=2)
         t = Polygon(polygon.buffer(buffer_ratio))
-        t_patch = PolygonPatch(t, facecolor=[1, 1, 1], edgecolor=[1, 0.5, 1], alpha=0.3, zorder=2)
+        t_patch = PolygonPatch(t, facecolor=[1, 1, 1], edgecolor=[0.1, 0.3, 0.5], alpha=1, zorder=2)
         enlarged_pb_dict[pb_name] = mapping(t)
-        ax.add_patch(patch)
         ax.add_patch(t_patch)
+        ax.add_patch(patch)
+
     return enlarged_pb_dict     # return enlarged park boundary with polygon
+
+
+# def convert_to_json(csv_file_dir, json_file_dir):
+#     csvfile = open(csv_file_dir, 'r')
+#     jsonfile = open(json_file_dir, 'w')
+#     reader = csv.reader(csvfile)
+#     headers = next(reader, None)
+#
+#     reader = csv.DictReader(csvfile, headers)
+#     count = 0
+#     for row in reader:
+#         if count != 0:
+#             json.dump(row, jsonfile)
+#             jsonfile.write(',')
+#         count = 1
+
+
 
 
 def plot_coords(ux, uy, vx, vy):
@@ -180,16 +198,21 @@ def extract_gl_wpz():
     return geo_lst
 
 
-
+def enlarged_pb_geojson(enlarged_pb_dict):
+    filename = 'enlarged_pb.geojson'
+    with open(filename, 'w') as outfile:
+        json.dump(enlarged_pb_dict, outfile)
 
 
 def main():
     make_small_sw_csv()
     geo_dict = extract_gl_wpz()
     enlarged_pb_dict = plot_map(geo_dict)
-    print(enlarged_pb_dict)
-    # make_small_pb_csv()   #not work for some reason.
+    enlarged_pb_geojson(enlarged_pb_dict)
 
+    # convert_to_json(small_sidewalk_dir, sm_json_dir)
+
+    # make_small_pb_csv()   #not work for some reason.
     plt.show()
 
 
