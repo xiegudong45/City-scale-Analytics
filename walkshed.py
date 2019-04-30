@@ -1,16 +1,26 @@
 import networkx as nx
-# import entwiner as ent
+# from datetime import datetime
 import math
 import pandas as pd
 import csv
 import json
+# import pytz
 
 # art, drinking_fountain, public_restroom, hospital, dog_off_leash_areas
 # dataset
-sidewalk_csv = "output/new_sw_collection.csv"
-crossing_csv = "18 AU/data_table/new_crossings.csv"
+sidewalk_csv = "./data/output/final_sidewalk.csv"
+crossing_csv = "./data/raw_data/crossings.csv"
 sw = pd.read_csv(sidewalk_csv)
 G = nx.Graph()
+
+
+# parameters
+WALK_BASE = 1.3
+WHEELCHAIR_BASE = 0.6
+POWERED_BASE = 2
+
+DIVISOR = 5
+INCLINE_IDEAL = -0.0087
 
 
 def generate_sdwk_network(csv_file):
@@ -21,21 +31,20 @@ def generate_sdwk_network(csv_file):
     in Seattle.
     :return: None
     """
-
     file = open(csv_file)
 
     for row in csv.DictReader(file):
         # start node
         coordinates = row["v_coordinates"][1: -1].split(',')
-        xv = "%.7f" % float(coordinates[0])
-        yv = "%.7f" % float(coordinates[1])
-        v = '(' + str(xv) + ', ' + str(yv) + ')'
-
-        # end node
-        coordinates = row["u_coordinates"][1: -1].split(',')
         xu = "%.7f" % float(coordinates[0])
         yu = "%.7f" % float(coordinates[1])
         u = '(' + str(xu) + ', ' + str(yu) + ')'
+
+        # end node
+        coordinates = row["u_coordinates"][1: -1].split(',')
+        xv = "%.7f" % float(coordinates[0])
+        yv = "%.7f" % float(coordinates[1])
+        v = '(' + str(xv) + ', ' + str(yv) + ')'
 
         if not G.has_node(v):
             G.add_node(v, pos_x=xv, pos_y=yv)
@@ -43,25 +52,38 @@ def generate_sdwk_network(csv_file):
         if not G.has_node(u):
             G.add_node(u, pos_x=xu, pos_y=yu)
 
-        # incline
         incline = float(row["incline"])
-        # surface
-        surface = str(row["surface"])
-        #length
+
+        # surface = str(row["surface"])
+
         length = float(row["length"])
 
         # edge
-        G.add_edge(v, u)
-        G[v][u]['type'] = 'sidewalk'
-        G[v][u]['incline'] = incline
-        G[v][u]['surface'] = surface
-        G[v][u]['length'] = length
-
         G.add_edge(u, v)
-        G[u][v]['type'] = 'sidewalk'
-        G[u][v]['incline'] = 0 - incline
-        G[u][v]['surface'] = surface
+        G[u][v]['subclass'] = 'footway'
+        G[u][v]['footway'] = 'sidewalk'
+
+        G[u][v]['incline'] = incline
         G[u][v]['length'] = length
+        # print('uv incline', G[u][v]['incline'])
+        # G[u][v]['surface'] = surface
+
+        G.add_edge(v, u)
+
+        G[v][u]['subclass'] = 'footway'
+        G[v][u]['footway'] = 'sidewalk'
+
+        G[v][u]['incline'] = -1 * incline
+        G[v][u]['length'] = length
+        # print('vu incline', G[v][u]['incline'])
+        # G[v][u]['surface'] = surface
+
+        G[u][v]['time'] = cal_time(G[u][v])
+        G[v][u]['time'] = cal_time(G[v][u])
+
+        print('G[u][v][\'time\']', G[u][v]['time'])
+        print('G[v][u][\'time\']', G[v][u]['time'])
+
     file.close()
     return G
 
@@ -75,20 +97,19 @@ def generate_crossing_network(csv_file):
     :return: None
     """
     file = open(csv_file)
-    #    G = nx.Graph()
 
     for row in csv.DictReader(file):
         # start node
         coordinates = row["v_coordinates"][1: -1].split(',')
-        xv = "%.7f" % float(coordinates[0])
-        yv = "%.7f" % float(coordinates[1])
-        v = '(' + str(xv) + ', ' + str(yv) + ')'
-
-        # end node
-        coordinates = row["u_coordinates"][1: -1].split(',')
         xu = "%.7f" % float(coordinates[0])
         yu = "%.7f" % float(coordinates[1])
         u = '(' + str(xu) + ', ' + str(yu) + ')'
+
+        # end node
+        coordinates = row["u_coordinates"][1: -1].split(',')
+        xv = "%.7f" % float(coordinates[0])
+        yv = "%.7f" % float(coordinates[1])
+        v = '(' + str(xv) + ', ' + str(yv) + ')'
 
         if not G.has_node(v):
             G.add_node(v, pos_x=xv, pos_y=yv)
@@ -98,80 +119,113 @@ def generate_crossing_network(csv_file):
 
         # incline
         incline = 0
+        length = float(row["length"])
         # marked
-        marked = int(row["marked"])
+        # marked = int(row["marked"])
         # curbramps
         curbramps = int(row["curbramps"])
 
         # edge
+        G.add_edge(u, v)
+        G[u][v]['subclass'] = 'footway'
+        G[u][v]['footway'] = 'crossing'
+        G[u][v]['length'] = length
+        G[u][v]['curbramps'] = curbramps
+
         G.add_edge(v, u)
-        G[v][u]['type'] = 'crossing'
-        G[v][u]['incline'] = incline
-
-        # G[v][u]['surface'] = None
-
-
-        G[v][u]['surface'] = 'Asphalt'
-        G[v][u]['marked'] = marked
+        G[v][u]['subclass'] = 'footway'
+        G[v][u]['footway'] = 'crossing'
+        G[v][u]['length'] = length
         G[v][u]['curbramps'] = curbramps
 
+        if row['incline'] == 'N/A':
+            G[u][v]['incline'] = 0
+            G[v][u]['incline'] = 0
+        else:
+            G[u][v]['incline'] = float(row['incline'])
+            G[v][u]['incline'] = -1 * float(row['incline'])
 
-        G.add_edge(u, v)
+        G[u][v]['time'] = cal_time(G[u][v])
+        G[v][u]['time'] = cal_time(G[v][u])
 
-        G[u][v]['type'] = 'crossing'
-        G[u][v]['incline'] = 0 - incline
-        # G[u][v]['surface'] = None
+        print('G[u][v][\'time\']', G[u][v]['time'])
+        print('G[v][u][\'time\']', G[v][u]['time'])
 
-        G[u][v]['surface'] = 'Asphalt'
-        G[u][v]['marked'] = marked
-        G[u][v]['curbramps'] = curbramps
 
     file.close()
     return G
-
-
-# An edge generator - takes input edges and creates transformed (and lower-memory) ones
-def edge_gen(G):
-    for u, v, d in G.edges_iter():
-        yield u, v, cost_fun(d)
-
-
-BASE_SPEED = 0.6
-IDEAL_INCLINE = -0.0087
-DIVISOR = 5
 
 
 def find_k(g, m, n):
     return math.log(n) / abs(g - m)
 
 
-k_up = find_k(0.08, IDEAL_INCLINE, DIVISOR)
-k_down = find_k(0.1, IDEAL_INCLINE, DIVISOR)
+def tobler_function(grade, k=3.5, m=INCLINE_IDEAL, base=WALK_BASE):
+    # Modified to be in meters / second rather than km / h
+    return base * math.exp(-k * abs(grade - m))
 
 
-def cost_fun(d, ideal_incline=IDEAL_INCLINE, base=BASE_SPEED):
-    def tobler(grade, k=3.5, m=-0.0087, base=0.6):
-        return base * math.exp(-k * abs(grade - m))
+def get_speed(edge, base_speed=WALK_BASE, downhill=0.1, uphill=0.085):
+    k_down = find_k(-downhill, INCLINE_IDEAL, DIVISOR)
+    k_up = find_k(uphill, INCLINE_IDEAL, DIVISOR)
 
-    if "curbramps" in d:
-        if d["curbramps"] == 0:
-            return None
+    time = 0
 
-    distance = d.get("length", 0.1)  # FIXME: no paths should have length zero
+    speed = base_speed
 
-    if "incline" in d:
-        incline = d["incline"] / 1000.
-        if incline > ideal_incline:
-            k = k_up
-        else:
-            k = k_down
-        speed = tobler(incline, k=k, m=ideal_incline, base=base)
-    else:
-        speed = base
+    length = edge["length"]
+    subclass = edge["subclass"]
 
-    time = distance / speed
-    d["time"] = time
+    if subclass == "footway":
+        if "footway" in edge:
+            if edge["footway"] == "sidewalk":
+                incline = float(edge["incline"])
+                # Decrease speed based on incline
+                if length > 3:
+                    if incline > uphill:
+                        speed = tobler_function(incline, k=uphill, m=INCLINE_IDEAL, base=base_speed)
+                    if incline < -downhill:
+                        speed = tobler_function(incline, k=-downhill, m=INCLINE_IDEAL, base=base_speed)
 
+                if incline > INCLINE_IDEAL:
+                    speed = tobler_function(incline, k=k_up, m=INCLINE_IDEAL, base=base_speed)
+                else:
+                    speed = tobler_function(incline, k=k_down, m=INCLINE_IDEAL, base=base_speed)
+
+            elif edge["footway"] == "crossing":
+                incline = float(edge["incline"])
+                # if avoidCurbs:
+                #     if "curbramps" in edge:
+                #         if not edge["curbramps"]:
+                #             return None
+                #     else:
+                #         # TODO: Make this user-configurable - we assume no
+                #         # curb ramps by default now
+                #         return None
+                # Add delay for crossing street
+                # TODO: tune this based on street type crossed and/or markings.
+                if incline != 0:
+                    speed = tobler_function(incline, k=0, m=INCLINE_IDEAL, base=base_speed)
+                time += 30
+
+    return time, speed, length
+
+
+def cal_time(edge, base_speed=WALK_BASE, downhill=0.1, uphill=0.085, avoidCurbs=True, timestamp=None):
+    """Calculates a cost-to-travel that balances distance vs. steepness vs.
+    needing to cross the street.
+    :param downhill: Maximum downhill incline indicated by the user, e.g.
+                     0.1 for 10% downhill.
+    :type downhill: float
+    :param uphill: Positive incline (uphill) maximum, as grade.
+    :type uphill: float
+    :param avoidCurbs: Whether curb ramps should be avoided.
+    :type avoidCurbs: bool
+    """
+
+    time, speed, length = get_speed(edge, base_speed=WALK_BASE, downhill=0.1, uphill=0.085)
+
+    time += length / speed
     return time
 
 
@@ -185,19 +239,17 @@ def walkshed(G, node, max_cost=15):
     :param node: starting point
     :param max_cost: time threshold (unit: minutes)
     :return: paths: all the edges that a people can reach within
-    max_cost time.
+    max_cost(min) time.
     sums: sum of the attributes along the path.
     """
-    sum_columns = ["length", "art_num", 'fountain_num', 'restroom_num', 'dog_num', 'hospital_num']
+    sum_columns = ["time", "art_num", 'fountain_num', 'restroom_num', 'dog_num', 'hospital_num']
     # Use Dijkstra's method to get the below-400 walkshed paths
     distances, paths = nx.algorithms.shortest_paths.single_source_dijkstra(
         G,
         node,
-        weight="time",
+        weight="cost",
         cutoff=max_cost
     )
-    # for it in paths.items():
-    #     print(it[1])
 
     # We need to do two things:
     # 1) Grab any additional reachable fringe edges. The user cannot traverse them in their
@@ -210,15 +262,15 @@ def walkshed(G, node, max_cost=15):
     #    to the fraction of marginal cost / edge cost.
 
     # Enumerate the fringes along with their fractional costs.
-    # fringe_edges = {}
-    # for n, distance in distances.items():
-    #     for successor in G.successors(n):
-    #         if successor not in distances:
-    #             cost = G[n][successor]["time"]
-    #             if cost is not None:
-    #                 marginal_cost = max_cost - distance
-    #                 fraction = marginal_cost / cost
-    #                 fringe_edges[(n, successor)] = fraction
+    fringe_edges = {}
+    for n, distance in distances.items():
+        for successor in G.successors(n):
+            if successor not in distances:
+                cost = G[n][successor]["time"]
+                if cost is not None:
+                    marginal_cost = max_cost - distance
+                    fraction = marginal_cost / cost
+                    fringe_edges[(n, successor)] = fraction
 
     # Create the sum total of every attribute in sum_columns
     edges = []
@@ -281,6 +333,7 @@ def join_attributes_to_node(G):
         if pd.notna(row['drinking_fountain']):
             fountain = row['drinking_fountain'].strip('[]').split(',')
             fountain_num = len(fountain)
+
         else:
             fountain_num = 0
 
@@ -288,6 +341,7 @@ def join_attributes_to_node(G):
         if pd.notna(row['public_restroom']):
             restroom = row['public_restroom'].strip('[]').split(',')
             restroom_num = len(restroom)
+
         else:
             restroom_num = 0
 
@@ -304,17 +358,17 @@ def join_attributes_to_node(G):
             dog_num = len(dog)
         else:
             dog_num = 0
-
-        # art number
-        if pd.notna(row['art']):
-            art = row['art'].strip('[]').split(',')
-            art_num = len(art)
-        else:
-            art_num = 0
+        #
+        # # art number
+        # if pd.notna(row['art']):
+        #     art = row['art'].strip('[]').split(',')
+        #     art_num = len(art)
+        # else:
+        #     art_num = 0
 
         # add the attributes to each edge
-        G[v][u]['art_num'] = art_num
-        G[u][v]['art_num'] = art_num
+        # G[v][u]['art_num'] = art_num
+        # G[u][v]['art_num'] = art_num
 
         G[v][u]['fountain_num'] = fountain_num
         G[u][v]['fountain_num'] = fountain_num
@@ -370,8 +424,6 @@ def paths_to_geojson(paths, filename, edges_set):
         node1_neighbors = [n for n in G.neighbors(node1)]
         for node2 in node1_neighbors:
             curr_edge = (node1, node2)
-            # print(curr_edge)
-            # break
             if node2 in node_set and not (curr_edge in edges_set):
                 line = []
                 node1_coords = extract_node_from_string(node1)
@@ -438,7 +490,9 @@ def main():
     print("Number of arts: ", sums["art_num"])
     print('Number of public restrooms: ', sums['restroom_num'])
     print('Number of drinking fountains: ', sums['fountain_num'])
-    print("Total length: ", sums["length"])
+    print('Number of public hospitals: ', sums['hospital_num'])
+    print('Number of dog off-leash areas: ', sums['dog_num'])
+    # print("Total length: ", sums["time"])
 
     print("output paths in walkshed...")
 

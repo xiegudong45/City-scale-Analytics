@@ -1,10 +1,3 @@
-import csv
-import networkx as nx
-import matplotlib.pyplot as plt
-
-import math
-import sys
-import json
 import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point, LineString
@@ -79,7 +72,6 @@ def main():
     art.to_csv("output/art_mapping_sw", encoding='utf-8')
     sw['art'] = art_array
     sw.to_csv("output/new_sw_wth_art", encoding='utf-8')
-
 
 
 if __name__ == "__main__":

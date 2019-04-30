@@ -5,7 +5,7 @@ import sys
 from flask import Flask, render_template, request, redirect, Response
 import random, json
 import networkx as nx
-import entwiner as ent
+# import entwiner as ent
 import math
 import pandas as pd
 import csv
@@ -141,18 +141,18 @@ def walkshed(G, node, max_cost=5, sum_columns=["length", "drinking_fountain_num"
         d = G[n1][n2]
         for column in sum_columns:
             sums[column] += d.get(column, 0)
-    return sums, paths
+    return sums, paths, edges
 
 
-def paths_to_geojson(paths):
-    output = {}
+def paths_to_geojson(paths,  edges_set):
+    output = dict()
     output["type"] = "FeatureCollection"
     output['features'] = []
-
+    node_set = set()
 
     for it in paths.items():
         path = it[1]
-        one_path = {}
+        one_path = dict()
         one_path['type'] = 'Feature'
         one_path['geometry'] = {}
         one_path['geometry']['type'] = 'LineString'
@@ -165,6 +165,29 @@ def paths_to_geojson(paths):
         one_path['geometry']['coordinates'] = line_lst
 
         output['features'].append(one_path)
+
+    for node1 in node_set:
+        node1_neighbors = [n for n in G.neighbors(node1)]
+        for node2 in node1_neighbors:
+            curr_edge = (node1, node2)
+            # print(curr_edge)
+            # break
+            if node2 in node_set and not (curr_edge in edges_set):
+                line = []
+                node1_coords = extract_node_from_string(node1)
+                node2_coords = extract_node_from_string(node2)
+                point1 = [float(node1_coords[0]), float(node1_coords[1])]
+                point2 = [float(node2_coords[0]), float(node2_coords[1])]
+                line.append(point1)
+                line.append(point2)
+
+                one_path = {}
+                one_path['type'] = 'Feature'
+                one_path['geometry'] = {}
+                one_path['geometry']['type'] = 'LineString'
+                one_path['geometry']['coordinates'] = line
+                output['features'].append(one_path)
+                edges_set.add(curr_edge)
 
     return json.dumps(output)
 
@@ -218,9 +241,9 @@ def worker():
         raise ValueError("Invalid feature requested!")
 
 
-    sums, paths = walkshed(G, start_node, max_cost=int(max_time), sum_columns=["length", col])
+    sums, paths, edges_set = walkshed(G, start_node, max_cost=int(max_time), sum_columns=["length", col])
     print("sum of utilities: ", sums[col])
-    result = paths_to_geojson(paths)
+    result = paths_to_geojson(paths, edges_set)
     return result
 
 
