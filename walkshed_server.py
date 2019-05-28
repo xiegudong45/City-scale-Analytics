@@ -15,9 +15,9 @@ import json
 app = Flask(__name__)
 
 # dataset
-sidewalk_csv = "output/new_sw_collection.csv"
+sidewalk_csv = "data/output/new_sw_collection.csv"
 crossing_csv = "18 AU/data_table/new_crossings.csv"
-sw = pd.read_csv("output/new_sw_collection.csv", index_col=0)
+sw = pd.read_csv("data/output/new_sw_collection.csv", index_col=0)
 G = nx.Graph()
 
 
@@ -210,7 +210,7 @@ def output():
 def worker():
     # read json + reply
     data = request.get_json()
-    print(data)
+    print('data: ', data)
     max_time = data['max_time']
     feature = data['feature']
 
@@ -239,7 +239,6 @@ def worker():
         col = "dola_num"
     else:
         raise ValueError("Invalid feature requested!")
-
 
     sums, paths, edges_set = walkshed(G, start_node, max_cost=int(max_time), sum_columns=["length", col])
     print("sum of utilities: ", sums[col])

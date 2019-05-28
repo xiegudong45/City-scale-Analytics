@@ -1,0 +1,4 @@
+/unweaver_venv/*
+/.idea
+/.ipynb_checkpoints
+graph.db

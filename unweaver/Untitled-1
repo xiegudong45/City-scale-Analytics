@@ -1,0 +1,14 @@
+import unweaver
+
+layers_files = "directory to transportation"
+db_path = ".../graph.db"
+G = entwiner.build.create_graph(layers_files, db_path, changes_sign=['incline'])
+
+
+unweaver/default_profile_functions.py
+
+unweaver/weight.py particulate_weight
+
+# pip install git+https://github.com/nbolten/entwiner.git@c1576941d6f6bedcf1e1cb20b47feb18d3f3abf8
+
+# pip install git+https://github.com/nbolten/unweaver.git@30f031116f3c0f46187ea9126b20bde0240d4940
