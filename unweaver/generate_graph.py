@@ -88,49 +88,7 @@ def precalculate_weight(G, weight_column, cost_fun_generator):
         G.update_edges(batch)
 
 
-def add_attribute(csv_file, G):
-    file = open(csv_file)
-    dic = dict()
-    for row in csv.DictReader(file):
-        # start node
-        u_coordinates = row["u_coordinates"][1: -1]
-        u = u_coordinates
-
-        # end node
-        v_coordinates = row["v_coordinates"][1: -1]
-        v = v_coordinates
-
-        drinking_fountain_num = len(row['drinking_fountain'])
-        public_restroom_num = len(row['public_restroom'])
-        hospital_num = len(row['hospital'])
-        dog_off_leash_areas_num = len(row['dog_off_leash_areas'])
-
-        dic[u][v]['df_num'] = drinking_fountain_num
-        dic[u][v]['pr_num'] = public_restroom_num
-        dic[u][v]['h_num'] = hospital_num
-        dic[u][v]['dol_num'] = dog_off_leash_areas_num
-
-    file.close()
-
-    batch = []
-    for i, (u, v, edge) in enumerate(G.iter_edges()):
-        if len(batch) == 1000:
-            G.update_edges(batch)
-            batch = []
-
-        batch.append(
-                        (u, v, {'df_num': dic[u][v]['df_num'],
-                             'pr_num': dic[u][v]['pr_num'],
-                             'h_num': dic[u][v]['h_num'],
-                             'dol_num': dic[u][v]['dol_num']
-                             }
-                        )
-                     )
-    if batch:
-        G.update_edges(batch)
-
-
-def shortest_path(G, start_node, cost_fun, max_cost=15):
+def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["length", "drinking_fountain_num"]):
 
     costs, paths = nx.algorithms.shortest_paths.single_source_dijkstra(
         G,
@@ -288,6 +246,12 @@ def shortest_path(G, start_node, cost_fun, max_cost=15):
 
         seen.add(edge_id)
     edges = edges + fringe_edges
+
+    # sums = {k: 0 for k in sum_columns}
+    # for n1, n2 in edges:
+    #     d = G[n1][n2]
+    #     for column in sum_columns:
+    #         sums[column] += d.get(column, 0)
 
     return nodes, paths, edges
 

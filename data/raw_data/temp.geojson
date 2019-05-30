@@ -1,0 +1,321 @@
+{
+    "type": "c",
+    "crs": {
+        "type": "name",
+        "properties": {
+            "name": "urn:ogc:def:crs:OGC:1.3:CRS84"
+        }
+    },
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "unmarked",
+                "curbramps": 1,
+                "length": 21.13,
+                "description": "Crossing at 1ST AVE",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33431401,
+                        47.60182781
+                    ],
+                    [
+                        -122.33404254,
+                        47.60177833
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 20.46,
+                "description": "Crossing at 1ST AVE S",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33404306,
+                        47.60163572
+                    ],
+                    [
+                        -122.3343147,
+                        47.60164708
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 20.09,
+                "description": "Crossing at YESLER WAY",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.3343147,
+                        47.60164708
+                    ],
+                    [
+                        -122.33431401,
+                        47.60182781
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 15.85,
+                "description": "Crossing at YESLER WAY",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33404254,
+                        47.60177833
+                    ],
+                    [
+                        -122.33404306,
+                        47.60163572
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 20.4,
+                "description": "Crossing at 1ST AVE",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33410269,
+                        47.60253483
+                    ],
+                    [
+                        -122.33433443,
+                        47.60243928
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 20.64,
+                "description": "Crossing at 1ST AVE",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33446724,
+                        47.60258549
+                    ],
+                    [
+                        -122.33423369,
+                        47.60268318
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 19.2,
+                "description": "Crossing at CHERRY ST",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33423369,
+                        47.60268318
+                    ],
+                    [
+                        -122.33410269,
+                        47.60253483
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "unmarked",
+                "curbramps": 0,
+                "length": 20.58,
+                "description": "Crossing at 1ST AVE",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33475688,
+                        47.60325425
+                    ],
+                    [
+                        -122.33499139,
+                        47.60315865
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "marked",
+                "curbramps": 1,
+                "length": 22.86,
+                "description": "Crossing at 1ST AVE",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33511085,
+                        47.60328674
+                    ],
+                    [
+                        -122.33485435,
+                        47.60339728
+                    ]
+                ]
+            }
+        },
+        {
+            "type": "Feature",
+            "properties": {
+                "subclass": "footway",
+                "footway": "crossing",
+                "crossing": "unmarked",
+                "curbramps": 1,
+                "length": 15.1,
+                "description": "Crossing at COLUMBIA ST",
+                "incline": null,
+                "surface": null,
+                "width": null,
+                "layer": null,
+                "elevator": null,
+                "indoor": null,
+                "opening_hours": null
+            },
+            "geometry": {
+                "type": "LineString",
+                "coordinates": [
+                    [
+                        -122.33491753,
+                        47.60324995
+                    ],
+                    [
+                        -122.33511085,
+                        47.60328674
+                    ]
+                ]
+            }
+        }
+    ]
+}
