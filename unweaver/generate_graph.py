@@ -30,25 +30,6 @@ INCLINE_IDEAL = -0.0087
 #             }
 
 
-def add_attributes(G, csv_file):
-    file = open(csv_file)
-
-    for row in csv.DictReader(file):
-        # start node
-        coordinates = row["v_coordinates"][11: -1].split(',')
-        xu = "%.7f" % float(coordinates[0].split(' ')[0])
-        yu = "%.7f" % float(coordinates[0].split(' ')[1])
-        u = str(xu) + ', ' + str(yu)
-
-        # end node
-        coordinates = row["u_coordinates"][1: -1].split(',')
-        xv = "%.7f" % float(coordinates[1].split(' ')[0])
-        yv = "%.7f" % float(coordinates[1].split(' ')[1])
-        v = str(xv) + ', ' + str(yv)
-
-    file.close()
-
-
 def cost_function_generator(base_speed=WALK_BASE, avoidCurbs=True, downhill=0.1, uphill=0.085):
     def find_k(g, m, n):
         return math.log(n) / abs(g - m)
@@ -103,6 +84,48 @@ def precalculate_weight(G, weight_column, cost_fun_generator):
             G.update_edges(batch)
             batch = []
         batch.append((u, v, {weight_column: weight}))
+    if batch:
+        G.update_edges(batch)
+
+
+def add_attribute(csv_file, G):
+    file = open(csv_file)
+    dic = dict()
+    for row in csv.DictReader(file):
+        # start node
+        u_coordinates = row["u_coordinates"][1: -1]
+        u = u_coordinates
+
+        # end node
+        v_coordinates = row["v_coordinates"][1: -1]
+        v = v_coordinates
+
+        drinking_fountain_num = len(row['drinking_fountain'])
+        public_restroom_num = len(row['public_restroom'])
+        hospital_num = len(row['hospital'])
+        dog_off_leash_areas_num = len(row['dog_off_leash_areas'])
+
+        dic[u][v]['df_num'] = drinking_fountain_num
+        dic[u][v]['pr_num'] = public_restroom_num
+        dic[u][v]['h_num'] = hospital_num
+        dic[u][v]['dol_num'] = dog_off_leash_areas_num
+
+    file.close()
+
+    batch = []
+    for i, (u, v, edge) in enumerate(G.iter_edges()):
+        if len(batch) == 1000:
+            G.update_edges(batch)
+            batch = []
+
+        batch.append(
+                        (u, v, {'df_num': dic[u][v]['df_num'],
+                             'pr_num': dic[u][v]['pr_num'],
+                             'h_num': dic[u][v]['h_num'],
+                             'dol_num': dic[u][v]['dol_num']
+                             }
+                        )
+                     )
     if batch:
         G.update_edges(batch)
 
@@ -359,29 +382,29 @@ def start_pt_to_geojson(start_node, filename):
 def main():
     layers_files = ["../data/raw_data/transportation.geojson"]
     db_path = "../data/unweaver/graph.db"
+    csv_file = '../data/output/final_sidewalk.csv'
     # G = entwiner.build.create_graph(layers_files, db_path, batch_size=10000, changes_sign=['incline'])
     G = entwiner.DiGraphDB(path=db_path)
     precalculate_weight(G, 'time', cost_function_generator)
+    add_attribute(csv_file, G)
 
     start_node = "-122.3323077, 47.610582"
 
     lat = 47.610582
     lon = -122.3323077
-    candidates = unweaver.network_queries.dwithin.candidates_dwithin(G, lon, lat, 1)
+    # candidates = unweaver.network_queries.dwithin.candidates_dwithin(G, lon, lat, 1)
     #
-    candidates_dict = dict(candidates)
+    # candidates_dict = dict(candidates)
+    #
+    # cost_function = cost_function_generator()
+    # max_cost = 15 * 60
 
-    cost_function = cost_function_generator()
-    max_cost = 15 * 60
-    # nodes, edges = unweaver.algorithms.reachable.reachable(G, candidates_dict, cost_function, max_cost)
-    # print(nodes)
+
+    # nodes, paths, edges = shortest_path(G, start_node, cost_function)
     # print(edges)
 
-    nodes, paths, edges = shortest_path(G, start_node, cost_function)
-    # print(edges)
-
-    path_filename = './test_walkshed1.geojson'
-    paths_to_geojson(path_filename, edges, start_node)
+    # path_filename = './test_walkshed1.geojson'
+    # paths_to_geojson(path_filename, edges, start_node)
     # start_pt_filename = './start_node.geojson'
     # start_pt_to_geojson(start_node, start_pt_filename)
 

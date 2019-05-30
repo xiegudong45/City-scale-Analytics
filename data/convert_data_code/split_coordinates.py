@@ -30,11 +30,10 @@ with open(origin_file, 'r') as file:
     for row in read_csv:
         if i > 0:
             coor_lst = row[-5][12:-1].split(",")
-            u_coor = "(" + str(coor_lst[0].split(" ")[0]) + "," + str(coor_lst[0].split(" ")[1]) + ")"
-            v_coor = "(" + str(coor_lst[1][1:].split(" ")[0]) + "," + str(coor_lst[1][1:].split(" ")[1]) + ")"
+            u_coor = "(" + str(round(float(coor_lst[0].split(" ")[0]), 7)) + ", " + str(round(float(coor_lst[0].split(" ")[1]), 7)) + ")"
+            v_coor = "(" + str(round(float(coor_lst[1][1:].split(" ")[0]), 7)) + ", " + str(round(float(coor_lst[1][1:].split(" ")[1]), 7)) + ")"
 
             df_sidewalk.loc[df_sidewalk.shape[0]] = [
-
                 row[1],
                 row[2],
                 row[3],

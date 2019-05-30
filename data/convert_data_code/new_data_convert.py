@@ -59,8 +59,8 @@ for feature in data['features']:
                             properties['elevator'] if 'elevator' in properties else "N/A",
                             properties['indoor'] if 'indoor' in properties else "N/A",
                             properties['opening_hours'] if 'opening_hours' in properties else "N/A",
-                            "(" + str(coor_lst[0][0]) + "," + str(coor_lst[0][1]) + ")",
-                            "(" + str(coor_lst[1][0]) + "," + str(coor_lst[1][1]) + ")"]
+                            "(" + str(coor_lst[0][0]) + ", " + str(coor_lst[0][1]) + ")",
+                            "(" + str(coor_lst[1][0]) + ", " + str(coor_lst[1][1]) + ")"]
 
 
         elif properties['footway'] == 'sidewalk':
@@ -78,8 +78,8 @@ for feature in data['features']:
                 properties['elevator'] if 'elevator' in properties else "N/A",
                 properties['indoor'] if 'indoor' in properties else "N/A",
                 properties['opening_hours'] if 'opening_hours' in properties else "N/A",
-                "(" + str(round(coor_lst[0][0], 7)) + "," + str(round(coor_lst[0][1], 7)) + ")",
-                "(" + str(round(coor_lst[-1][0], 7)) + "," + str(round(coor_lst[-1][1], 7)) + ")"]
+                "(" + str(round(coor_lst[0][0], 7)) + ", " + str(round(coor_lst[0][1], 7)) + ")",
+                "(" + str(round(coor_lst[-1][0], 7)) + ", " + str(round(coor_lst[-1][1], 7)) + ")"]
 
 
 print("============")

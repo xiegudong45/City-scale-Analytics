@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/unweaver/generate_graph.py" line="65" mnemonic="4" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="54bca376-3f89-4c3a-9573-20b95e418b40" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/City-scale-Analytics.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/City-scale-Analytics.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Data wrangling.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Data wrangling.ipynb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/data/convert_data_code/new_data_convert.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/convert_data_code/new_data_convert.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/external_data/hospital.db" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/data/output/art_mapping_sw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/join_art_to_graph.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/visualization/test_art.qgz" beforeDir="false" afterPath="$PROJECT_DIR$/visualization/test_art.qgz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/walkshed test/test_walkshed.geojson" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/walkshed.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_code/walkshed.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/walkshed_ent.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/walkshed_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/walkshed_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/convert_data_code/split_coordinates.py" beforeDir="false" afterPath="$PROJECT_DIR$/data/convert_data_code/split_coordinates.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/external_data/Public_Art_Data.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/external_data/public_arts.geojson" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/output/final_sidewalk.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/output/final_sidewalk.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw_data/crossings.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw_data/crossings.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/data/raw_data/sidewalks.csv" beforeDir="false" afterPath="$PROJECT_DIR$/data/raw_data/sidewalks.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unweaver/generate_graph.py" beforeDir="false" afterPath="$PROJECT_DIR$/unweaver/generate_graph.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/unweaver/test_walkshed1.geojson" beforeDir="false" afterPath="$PROJECT_DIR$/unweaver/test_walkshed1.geojson" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -39,33 +39,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/unweaver/generate_graph.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8557">
-              <caret line="360" column="17" selection-start-line="360" selection-start-column="17" selection-end-line="360" selection-end-column="17" />
+            <state relative-caret-position="638">
+              <caret line="318" column="4" lean-forward="true" selection-start-line="318" selection-start-column="4" selection-end-line="354" selection-end-column="19" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
-                <element signature="e#1178#2673#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data/convert_data_code/split_coordinates.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="964">
-              <caret line="34" selection-start-line="34" selection-end-line="34" />
-              <folding>
-                <element signature="e#0#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/data/convert_data_code/combine_external_data.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="289">
+              <caret line="75" column="65" selection-start-line="75" selection-start-column="65" selection-end-line="75" selection-end-column="65" />
+              <folding>
+                <element signature="e#0#11#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/data/convert_data_code/new_data_convert.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="92" column="47" lean-forward="true" selection-start-line="92" selection-start-column="47" selection-end-line="92" selection-end-column="47" />
+            <state relative-caret-position="1890">
+              <caret line="63" selection-start-line="63" selection-end-line="63" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -92,6 +91,7 @@
       <find>edges_set</find>
       <find>print</find>
       <find>load_graph</find>
+      <find>compute_distance</find>
       <find>save_graph</find>
     </findStrings>
   </component>
@@ -109,23 +109,23 @@
         <option value="$PROJECT_DIR$/convert_data/join_restroom_fountain_to_graph.py" />
         <option value="$PROJECT_DIR$/join_art_to_graph.py" />
         <option value="$PROJECT_DIR$/data/convert_data_code/join_restroom_fountain_to_graph.py" />
-        <option value="$PROJECT_DIR$/data/convert_data_code/split_coordinates.py" />
         <option value="$PROJECT_DIR$/cut_edge.py" />
         <option value="$PROJECT_DIR$/walkshed.py" />
         <option value="$PROJECT_DIR$/test_code/walkshed.py" />
         <option value="$PROJECT_DIR$/test_code/generate_graph.py" />
         <option value="$PROJECT_DIR$/walkshed_server1.py" />
         <option value="$PROJECT_DIR$/walkshed_server.py" />
-        <option value="$PROJECT_DIR$/unweaver/generate_graph.py" />
         <option value="$PROJECT_DIR$/data/convert_data_code/new_data_convert.py" />
+        <option value="$PROJECT_DIR$/data/convert_data_code/split_coordinates.py" />
+        <option value="$PROJECT_DIR$/unweaver/generate_graph.py" />
+        <option value="$PROJECT_DIR$/data/convert_data_code/combine_external_data.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds" fullScreen="true">
-    <option name="x" value="62" />
-    <option name="y" value="83" />
-    <option name="width" value="1618" />
-    <option name="height" value="977" />
+    <option name="y" value="53" />
+    <option name="width" value="1680" />
+    <option name="height" value="1027" />
   </component>
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -191,7 +191,29 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.new_data_convert">
+  <component name="RunManager" selected="Python.combine_external_data">
+    <configuration name="combine_external_data" type="PythonConfigurationType" factoryName="Python" temporary="true">
+      <module name="City-scale-Analytics" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/convert_data_code" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/convert_data_code/combine_external_data.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="generate_graph (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="City-scale-Analytics" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -206,28 +228,6 @@
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/unweaver/generate_graph.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="generate_graph" type="PythonConfigurationType" factoryName="Python" temporary="true">
-      <module name="City-scale-Analytics" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test_code" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_code/generate_graph.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -258,7 +258,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="walkshed" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="split_coordinates" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="City-scale-Analytics" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -266,12 +266,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/data/convert_data_code" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/test_code/walkshed.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/data/convert_data_code/split_coordinates.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -304,11 +304,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.new_data_convert" />
-        <item itemvalue="Python.generate_graph (1)" />
+        <item itemvalue="Python.combine_external_data" />
         <item itemvalue="Python.walkshed_server" />
-        <item itemvalue="Python.generate_graph" />
-        <item itemvalue="Python.walkshed" />
+        <item itemvalue="Python.generate_graph (1)" />
+        <item itemvalue="Python.split_coordinates" />
+        <item itemvalue="Python.new_data_convert" />
       </list>
     </recent_temporary>
   </component>
@@ -342,23 +342,24 @@
       <workItem from="1558042642101" duration="2572000" />
       <workItem from="1558300149859" duration="602000" />
       <workItem from="1558300790709" duration="18311000" />
-      <workItem from="1558993002974" duration="4229000" />
+      <workItem from="1558993002974" duration="12927000" />
+      <workItem from="1559240148269" duration="2029000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115040000" />
+    <option name="totallyTimeSpent" value="125767000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+    <frame x="0" y="0" width="1920" height="1080" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.15323566" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.13525027" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49936548" visible="true" weight="0.2987552" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" sideWeight="0.49936548" visible="true" weight="0.2665996" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -380,9 +381,11 @@
     <option name="version" value="1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/City_scale_Analytics$walkshed_server.coverage" NAME="walkshed_server Coverage Results" MODIFIED="1558994808430" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/City_scale_Analytics$new_data_convert.coverage" NAME="new_data_convert Coverage Results" MODIFIED="1558996926895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/convert_data_code" />
-    <SUITE FILE_PATH="coverage/City_scale_Analytics$generate_graph__1_.coverage" NAME="generate_graph (1) Coverage Results" MODIFIED="1558996563176" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/unweaver" />
+    <SUITE FILE_PATH="coverage/City_scale_Analytics$walkshed_server.coverage" NAME="walkshed_server Coverage Results" MODIFIED="1559083922725" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/City_scale_Analytics$combine_external_data.coverage" NAME="combine_external_data Coverage Results" MODIFIED="1559242439400" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/convert_data_code" />
+    <SUITE FILE_PATH="coverage/City_scale_Analytics$new_data_convert.coverage" NAME="new_data_convert Coverage Results" MODIFIED="1559027656735" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/convert_data_code" />
+    <SUITE FILE_PATH="coverage/City_scale_Analytics$split_coordinates.coverage" NAME="split_coordinates Coverage Results" MODIFIED="1559029672250" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/data/convert_data_code" />
+    <SUITE FILE_PATH="coverage/City_scale_Analytics$generate_graph__1_.coverage" NAME="generate_graph (1) Coverage Results" MODIFIED="1559077050102" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/unweaver" />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/Shenghao/week7/build_graph.py" />
@@ -425,16 +428,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/data/convert_data_code/join_restroom_fountain_to_graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="351">
-          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
-          <folding>
-            <element signature="e#0#23#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/anaconda3/envs/unweaver/lib/python3.6/site-packages/unweaver/algorithms/shortest_paths.py" />
     <entry file="file://$PROJECT_DIR$/test_code/generate_graph.py">
       <provider selected="true" editor-type-id="text-editor">
@@ -460,9 +453,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/walkshed_ent.py" />
-    <entry file="file://$PROJECT_DIR$/static/index.js">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/walkshed_server1.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1747">
@@ -471,33 +461,6 @@
             <element signature="e#20#30#0" expanded="true" />
             <element signature="e#5513#5571#0" />
             <element signature="e#5628#5690#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/unweaver/generate_graph.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8557">
-          <caret line="360" column="17" selection-start-line="360" selection-start-column="17" selection-end-line="360" selection-end-column="17" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-            <element signature="e#1178#2673#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/walkshed_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1534">
-          <caret line="20" column="13" selection-start-line="20" selection-start-column="13" selection-end-line="20" selection-end-column="13" />
-          <folding>
-            <element signature="e#20#30#0" expanded="true" />
-            <element signature="e#487#1680#0" />
-            <element signature="e#1728#3007#0" />
-            <element signature="e#3098#3870#0" />
-            <element signature="e#3918#5548#0" />
-            <element signature="e#5596#5654#0" />
-            <element signature="e#5711#5773#0" />
           </folding>
         </state>
       </provider>
@@ -513,18 +476,63 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/data/convert_data_code/split_coordinates.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="964">
-          <caret line="34" selection-start-line="34" selection-end-line="34" />
+        <state relative-caret-position="1050">
+          <caret line="35" column="53" selection-start-line="35" selection-start-column="53" selection-end-line="35" selection-end-column="53" />
           <folding>
             <element signature="e#0#19#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/data/convert_data_code/join_restroom_fountain_to_graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-77">
+          <caret line="13" column="20" selection-start-line="13" selection-start-column="20" selection-end-line="13" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#23#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/data/convert_data_code/new_data_convert.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="92" column="47" lean-forward="true" selection-start-line="92" selection-start-column="47" selection-end-line="92" selection-end-column="47" />
+        <state relative-caret-position="1890">
+          <caret line="63" selection-start-line="63" selection-end-line="63" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/walkshed_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="895">
+          <caret line="235" column="24" selection-start-line="235" selection-start-column="24" selection-end-line="235" selection-end-column="24" />
+          <folding>
+            <element signature="e#20#30#0" expanded="true" />
+            <element signature="e#3918#5548#0" />
+            <element signature="e#5596#5654#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/static/index.js">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/unweaver/generate_graph.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="638">
+          <caret line="318" column="4" lean-forward="true" selection-start-line="318" selection-start-column="4" selection-end-line="354" selection-end-column="19" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data/convert_data_code/combine_external_data.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="289">
+          <caret line="75" column="65" selection-start-line="75" selection-start-column="65" selection-end-line="75" selection-end-column="65" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
