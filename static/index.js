@@ -208,6 +208,7 @@ map.on('load', function () {
             "max_time": time,
             "feature": feature,
         };
+        console.log('feature', feature);
         // ajax the JSON to the server
         $.post("receiver", JSON.stringify(request), function (data) {
             console.log("request: " + request);

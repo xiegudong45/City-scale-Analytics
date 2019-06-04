@@ -54,15 +54,27 @@ with open('../raw_data/transportation.geojson') as f:
                 valid_count += 1
                 entry_dic['properties'] = {
                                             **item['properties'],
-                                            'df_num': external_lst[target_key]['df_num'],
-                                            'pb_num': external_lst[target_key]['pb_num'],
-                                            'h_num': external_lst[target_key]['h_num'],
-                                            'dof_num': external_lst[target_key]['dof_num']
+                                            'df_num': len(external_lst[target_key]['df_num']),
+                                            'pb_num': len(external_lst[target_key]['pb_num']),
+                                            'h_num': len(external_lst[target_key]['h_num']),
+                                            'dof_num': len(external_lst[target_key]['dof_num'])
                                             }
             else:
-                entry_dic['properties'] = item['properties']
+                entry_dic['properties'] = {
+                                            **item['properties'],
+                                            'df_num': 0,
+                                            'pb_num': 0,
+                                            'h_num': 0,
+                                            'dof_num': 0
+                                            }
         else:
-            entry_dic['properties'] = item['properties']
+            entry_dic['properties'] = {
+                                        **item['properties'],
+                                        'df_num': 0,
+                                        'pb_num': 0,
+                                        'h_num': 0,
+                                        'dof_num': 0
+                                      }
 
         entry_dic['geometry'] = item['geometry']
         final_dict['features'].append(entry_dic)

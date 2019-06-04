@@ -88,7 +88,7 @@ def precalculate_weight(G, weight_column, cost_fun_generator):
         G.update_edges(batch)
 
 
-def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["length", "drinking_fountain_num"]):
+def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["df_num", "pb_num", "h_num", "dof_num"]):
 
     costs, paths = nx.algorithms.shortest_paths.single_source_dijkstra(
         G,
@@ -147,11 +147,13 @@ def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["length", "
     fringe_candidates = {}
     for u in traveled_nodes:
         for v in G.neighbors(u):
-            print('u', u)
+
             if (u, v) in traveled_edges:
                 continue
 
             traveled_edges.add((u, v))
+            # print("u: ", u)
+            # print("v: ", v)
 
             edge = dict(G[u][v])
             cost = cost_fun(u, v, edge)
@@ -203,7 +205,6 @@ def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["length", "
         return fringe_edge, fringe_node
 
     fringe_edges = []
-    # print('1 ', type(fringe_edges))
     seen = set()
 
     for edge_id, candidate in fringe_candidates.items():
@@ -246,12 +247,20 @@ def shortest_path(G, start_node, cost_fun, max_cost=15, sum_columns=["length", "
 
         seen.add(edge_id)
     edges = edges + fringe_edges
+    # print('edges', edges)
+    sums = {k: 0 for k in sum_columns}
+    for item in edges:
+        n1 = item['_u']
+        n2 = item['_v']
 
-    # sums = {k: 0 for k in sum_columns}
-    # for n1, n2 in edges:
-    #     d = G[n1][n2]
-    #     for column in sum_columns:
-    #         sums[column] += d.get(column, 0)
+        if G.has_node(n1) and G.has_node(n2) and G.has_edge(n1, n2):
+            d = G[n1][n2]
+            # print('d: ', d)
+
+            for column in sum_columns:
+                # print('here: ', type(d[column]))
+                sums[column] += d.get(column, 0)
+    print(sums)
 
     return nodes, paths, edges
 
@@ -344,27 +353,30 @@ def start_pt_to_geojson(start_node, filename):
 
 
 def main():
-    layers_files = ["../data/raw_data/transportation.geojson"]
+    layers_files = ["../data/output/tranportation_amend.geojson"]
     db_path = "../data/unweaver/graph.db"
-    csv_file = '../data/output/final_sidewalk.csv'
-    # G = entwiner.build.create_graph(layers_files, db_path, batch_size=10000, changes_sign=['incline'])
-    G = entwiner.DiGraphDB(path=db_path)
+    # csv_file = '../data/output/final_sidewalk.csv'
+    G = entwiner.build.create_graph(layers_files, db_path, batch_size=10000, changes_sign=['incline'])
+    # G = entwiner.DiGraphDB(path=db_path)
+    print("1")
+    # print(nx.get_edge_attributes(G))
     precalculate_weight(G, 'time', cost_function_generator)
-    add_attribute(csv_file, G)
 
     start_node = "-122.3323077, 47.610582"
 
-    lat = 47.610582
-    lon = -122.3323077
-    # candidates = unweaver.network_queries.dwithin.candidates_dwithin(G, lon, lat, 1)
-    #
-    # candidates_dict = dict(candidates)
-    #
-    # cost_function = cost_function_generator()
-    # max_cost = 15 * 60
+    ax = str(round(-122.27477536, 7))
+    ay = str(round(47.66314498, 7))
+    a = ax + ", " + ay
 
+    bx = str(round(-122.27480049, 7))
+    by = str(round(47.66483659, 7))
+    b = bx + ", " + by
+    print(dict(G[a][b]).keys())
+    #
+    cost_function = cost_function_generator()
+    max_cost = 15 * 60
 
-    # nodes, paths, edges = shortest_path(G, start_node, cost_function)
+    nodes, paths, edges = shortest_path(G, start_node, cost_function)
     # print(edges)
 
     # path_filename = './test_walkshed1.geojson'

@@ -21,8 +21,6 @@ from unweaver.geo import cut
 import math
 
 
-
-
 # parameters
 WALK_BASE = 1.3
 WHEELCHAIR_BASE = 0.6
@@ -34,10 +32,9 @@ INCLINE_IDEAL = -0.0087
 app = Flask(__name__)
 
 # dataset
-sidewalk_csv = "data/output/new_sw_collection.csv"
-crossing_csv = "18 AU/data_table/new_crossings.csv"
-sw = pd.read_csv("data/output/new_sw_collection.csv", index_col=0)
-G = nx.Graph()
+db_path = "./data/unweaver/graph.db"
+G = entwiner.DiGraphDB(path=db_path)
+
 
 def save_graph(G, filename):
     json.dump(dict(nodes=[[n, G.node[n]] for n in G.nodes()],
@@ -85,7 +82,6 @@ def cost_function_generator(base_speed=WALK_BASE, avoidCurbs=True, downhill=0.1,
         time += length / speed
         return time
 
-
     return cost_function
 
 
@@ -104,7 +100,6 @@ def precalculate_weight(G, weight_column, cost_fun_generator):
 
 
 def shortest_path(G, start_node, cost_fun, max_cost=15):
-
     costs, paths = nx.algorithms.shortest_paths.single_source_dijkstra(
         G,
         start_node,
@@ -291,29 +286,6 @@ def paths_to_geojson(paths,  edges_set):
 
         output['features'].append(one_path)
 
-    for node1 in node_set:
-        node1_neighbors = [n for n in G.neighbors(node1)]
-        for node2 in node1_neighbors:
-            curr_edge = (node1, node2)
-            # print(curr_edge)
-            # break
-            if node2 in node_set and not (curr_edge in edges_set):
-                line = []
-                node1_coords = extract_node_from_string(node1)
-                node2_coords = extract_node_from_string(node2)
-                point1 = [float(node1_coords[0]), float(node1_coords[1])]
-                point2 = [float(node2_coords[0]), float(node2_coords[1])]
-                line.append(point1)
-                line.append(point2)
-
-                one_path = {}
-                one_path['type'] = 'Feature'
-                one_path['geometry'] = {}
-                one_path['geometry']['type'] = 'LineString'
-                one_path['geometry']['coordinates'] = line
-                output['features'].append(one_path)
-                edges_set.add(curr_edge)
-
     return json.dumps(output)
 
 
@@ -335,87 +307,65 @@ def output():
 def worker():
     # read json + reply
     data = request.get_json()
-    print(data)
     max_time = data['max_time']
     feature = data['feature']
 
     start_lat = round(float(data['start_lat']), 7)
-    lon = float(data['start_lon'])
-    start_lon = round(lon - (360 if lon > 0 else 0), 7)
+    lon = round(float(data['start_lon']), 7)
+    start_lon = lon - (360 if lon > 0 else 0)
     start_node = str(start_lon) + ", " + str(start_lat)
-
+    print('start_node1w222: ', start_node)
+    node_lst = list(G.nodes)
+    print('node_lst', len(node_lst))
     # find closest node in G for start node
-    if start_node not in G.nodes:
-        min_dist = math.inf
-        for node in G.nodes:
+    if start_node not in node_lst:
+        print("true")
+        min_dist = float('inf')
+        print('min_dist', min_dist)
+        print('a', len(list(G.nodes)))
+        for node in list(G.nodes):
+            print('node', node)
             coords = node.split(', ')
+            print("coords", coords)
             dist = compute_distance(start_lon, start_lat, float(coords[0]), float(coords[1]))
+            print('dist', dist)
             if dist < min_dist:
                 min_dist = dist
                 start_node = node
+                print('start_node: ', start_node)
 
-    if feature == "Drinking Fountains":
-        col = "drinking_fountain_num"
-    elif feature == "Public Restrooms":
-        col = "public_restroom_num"
-    elif feature == "Hospitals":
-        col = "hospital_num"
-    elif feature == "Dog Off Leash Areas":
-        col = "dola_num"
-    else:
-        raise ValueError("Invalid feature requested!")
-
-
-    nodes, paths, edges = shortest_path(G, start_node, max_cost=int(max_time), sum_columns=["length", col])
+    # if feature == "Drinking Fountains":
+    #     col = "drinking_fountain_num"
+    # elif feature == "Public Restrooms":
+    #     col = "public_restroom_num"
+    # elif feature == "Hospitals":
+    #     col = "hospital_num"
+    # elif feature == "Dog Off Leash Areas":
+    #     col = "dola_num"
+    # else:
+    #     raise ValueError("Invalid feature requested!")
+    cost_function = cost_function_generator()
+    nodes, paths, edges = shortest_path(G, start_node, cost_function, max_cost=int(max_time))
     # print("sum of utilities: ", sums[col])
     result = paths_to_geojson(paths, edges,)
     return result
-
-
-# generic method for joining feature
-def join_feature_to_graph(feature_name, attr_name):
-    for idx, row in sw.iterrows():
-        if pd.notna(row[feature_name]):
-            # print(row["art"])
-            # start node
-            coordinates = row["v_coordinates"][1: -1].split(',')
-            xv = "%.7f" % float(coordinates[0])
-            yv = "%.7f" % float(coordinates[1])
-            v = str(xv) + ', ' + str(yv)
-
-            # end node
-            coordinates = row["u_coordinates"][1: -1].split(',')
-            xu = "%.7f" % float(coordinates[0])
-            yu = "%.7f" % float(coordinates[1])
-            u = str(xu) + ', ' + str(yu)
-
-            # art number
-            art = str(row[feature_name]).strip("[]\'").split(",")
-            # print(art)
-            art_num = len(art)
-
-            G[v][u][attr_name] = art_num
-            G[u][v][attr_name] = art_num
 
 
 def main():
     #preprocess
     print("loading data...")
     db_path = "./data/unweaver/graph.db"
-    layers_files = ["../data/raw_data/transportation.geojson"]
-    if (os.path.isfile(db_path)):
-        G = entwiner.DiGraphDB(path=db_path)
-    else:
-        G = entwiner.build.create_graph(layers_files, db_path, batch_size=10000, changes_sign=['incline'])
+    layers_files = ["./data/raw_data/transportation.geojson"]
+    # if (os.path.isfile(db_path)):
+    G = entwiner.DiGraphDB(path=db_path)
+    print('main: ', len(list(G.nodes)))
+    # else:
+    # G = entwiner.build.create_graph(layers_files, db_path, batch_size=10000, changes_sign=['incline'])
 
     precalculate_weight(G, 'time', cost_function_generator)
 
     # join features to network
-    #join_feature_to_graph("art", "art_num")
-    join_feature_to_graph("drinking_fountain", "drinking_fountain_num")
-    join_feature_to_graph("public_restroom", "public_restroom_num")
-    join_feature_to_graph("hospital", "hospital_num")
-    join_feature_to_graph("dog_off_leash_areas", "dola_num")
+
 
 
 

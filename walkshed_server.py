@@ -236,7 +236,7 @@ def worker():
     elif feature == "Hospitals":
         col = "hospital_num"
     elif feature == "Dog Off Leash Areas":
-        col = "dola_num"
+        col = "dol_num"
     else:
         raise ValueError("Invalid feature requested!")
 
